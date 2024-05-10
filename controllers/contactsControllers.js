@@ -3,11 +3,14 @@ import HttpError from "../helpers/HttpError.js";
 import {
   createContactSchema,
   updateContactSchema,
+  updateFavoriteContactSchema,
 } from "../schemas/contactsSchemas.js";
 import * as contactsService from "../services/contactsServices.js";
 
 const getAllContacts = async (req, res) => {
-  const result = await contactsService.listContacts();
+  const result = await contactsService.listContacts({
+    fields: "-createdAt -updatedAt",
+  });
   res.json(result);
 };
 
@@ -52,10 +55,24 @@ const updateContact = async (req, res) => {
   res.json(result);
 };
 
+const updateStatusContact = async (req, res) => {
+  const { error } = updateFavoriteContactSchema.validate(req.body);
+  if (error) {
+    throw HttpError(404, "Not found");
+  }
+  const { id } = req.params;
+  const result = await contactsService.updateContactById(id, req.body);
+  if (!result) {
+    throw HttpError(404, `Contact with id =${id} not found`);
+  }
+  res.json(result);
+};
+
 export const contactsControllers = {
   getAllContacts: ctrlWrap(getAllContacts),
   getOneContact: ctrlWrap(getOneContact),
   deleteContact: ctrlWrap(deleteContact),
   createContact: ctrlWrap(createContact),
   updateContact: ctrlWrap(updateContact),
+  updateStatusContact: ctrlWrap(updateStatusContact),
 };
