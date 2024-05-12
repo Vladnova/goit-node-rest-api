@@ -58,7 +58,7 @@ const updateContact = async (req, res) => {
 const updateStatusContact = async (req, res) => {
   const { error } = updateFavoriteContactSchema.validate(req.body);
   if (error) {
-    throw HttpError(404, "Not found");
+    throw HttpError(400, "Favorite field is required");
   }
   const { id } = req.params;
   const result = await contactsService.updateContactById(id, req.body);
