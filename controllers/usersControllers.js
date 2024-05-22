@@ -13,8 +13,10 @@ const register = async (req, res) => {
   const user = await userServices.saveUser(req.body);
 
   res.status(201).json({
-    email: user.email,
-    subscription: user.subscription,
+    user: {
+      email: user.email,
+      subscription: user.subscription,
+    },
   });
 };
 
