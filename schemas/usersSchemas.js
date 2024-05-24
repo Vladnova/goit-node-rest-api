@@ -20,15 +20,4 @@ export const changeSubscriptionSchema = Joi.object({
     ),
 });
 
-// export const uploadAvatarShema = Joi.object({
-//   avatar: Joi.any()
-//     .required()
-//     .custom((value, helpers) => {
-//       if (value.size > 5 * 1024 * 1024) {
-//         return helpers.message(
-//           "Avatar must be less than or equal to 5 MB in size."
-//         );
-//       }
-//       return value;
-//     }),
-// });
+

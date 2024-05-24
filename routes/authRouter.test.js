@@ -24,7 +24,6 @@ describe("test /api/users/login", () => {
     const { statusCode, body } = await request(app)
       .post("/api/users/login")
       .send(loginData);
-    console.log('statusCode', statusCode)
 
     expect(statusCode).toBe(200);
     expect(body.token).toBeDefined();

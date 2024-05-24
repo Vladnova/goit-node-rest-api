@@ -94,11 +94,6 @@ const changeSubscription = async (req, res, next) => {
 };
 
 const changeAvatar = async (req, res, next) => {
-  // const { error } = uploadAvatarShema.validate({ avatar: req.file });
-  // if (error) {
-  //   await fs.unlink(oldPash);
-  //   return next(HttpError(400, error.message));
-  // }
   const { path: oldPath, filename } = req.file;
   const { _id } = req.user;
 
