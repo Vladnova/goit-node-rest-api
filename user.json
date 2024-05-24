@@ -1,0 +1,13 @@
+{
+  "password": "$2b$10$fpQjCggu2wrdYtSlEqAmHu3rkp7GBqWZmMf.ntv27zQPG.hvgdJ06",
+  "email": "vlad@gmail.com",
+  "subscription": "starter",
+  "avatarURL": "http://www.gravatar.com/avatar/2d57b94357572fe7fa560d5408714966?s=200&r=x&d=monsterid",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NTEwYWM0M2ZhZWYzMTYxYmFhYjg1ZiIsImlhdCI6MTcxNjU4NzIzMSwiZXhwIjoxNzE2NjczNjMxfQ.tV7B4ctvreCTKjF1dwrXLiO57aRYOnrFZD9EJj06De0",
+  "createdAt": {
+    "$date": "2024-05-24T21:46:44.177Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-24T21:47:11.249Z"
+  }
+}
