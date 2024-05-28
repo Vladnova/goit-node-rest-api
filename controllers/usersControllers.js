@@ -3,19 +3,31 @@ import HttpError from "../helpers/HttpError.js";
 import compareHash from "../helpers/compareHash.js";
 import { createToken } from "../helpers/jwt.js";
 import * as userServices from "../services/userServices.js";
+import fs from "fs/promises";
+import path from "path";
+import Jimp from "jimp";
+
+import gravatar from "gravatar";
 
 const register = async (req, res) => {
   const { email } = req.body;
+
   const hasEmailInDB = await userServices.findUser({ email });
   if (hasEmailInDB) {
     throw HttpError(409, "Email in use");
   }
-  const user = await userServices.saveUser(req.body);
+  const avatarURL = gravatar.url(
+    email,
+    { s: "200", r: "x", d: "monsterid" },
+    false
+  );
+  const user = await userServices.saveUser({ ...req.body, avatarURL });
 
   res.status(201).json({
     user: {
       email: user.email,
       subscription: user.subscription,
+      avatarURL,
     },
   });
 };
@@ -81,10 +93,28 @@ const changeSubscription = async (req, res, next) => {
   });
 };
 
+const changeAvatar = async (req, res, next) => {
+  const { path: oldPath, filename } = req.file;
+  const { _id } = req.user;
+
+  const image = await Jimp.read(oldPath);
+  await image.resize(250, 250).writeAsync(oldPath);
+
+  const avatarsPath = path.resolve("public", "avatars");
+  const newPath = path.join(avatarsPath, filename);
+
+  await fs.rename(oldPath, newPath);
+  const avatarURL = path.join("avatars", filename);
+  await userServices.updateUser({ _id }, { avatarURL });
+
+  res.status(200).json({ avatarURL });
+};
+
 export default {
   register: ctrlWrap(register),
   login: ctrlWrap(login),
   getCurrent: ctrlWrap(getCurrent),
   logout: ctrlWrap(logout),
   changeSubscription: ctrlWrap(changeSubscription),
+  changeAvatar: ctrlWrap(changeAvatar),
 };
