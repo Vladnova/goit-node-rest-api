@@ -5,6 +5,7 @@ import validateBody from "../decorators/validateBody.js";
 import {
   changeSubscriptionSchema,
   userSigninSchema,
+  userVerifyEmailSchema,
 } from "../schemas/usersSchemas.js";
 import authenticate from "../middlewares/authenticate.js";
 import upload from "../middlewares/upload.js";
@@ -41,6 +42,14 @@ authRouter.patch(
   authenticate,
   upload.single("avatar"),
   authControllers.changeAvatar
+);
+
+authRouter.get("/verify/:verificationToken", authControllers.verify);
+
+authRouter.post(
+  "/verify",
+  validateBody(userVerifyEmailSchema),
+  authControllers.resendVerify
 );
 
 export default authRouter;
